@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marry Me, Ginni! 💍</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Brush Script MT', cursive;
+        }
+
+        body {
+            background: linear-gradient(45deg, #ff758c, #ff7eb9);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(255, 20, 147, 0.3);
+            text-align: center;
+            position: relative;
+            max-width: 600px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        h1 {
+            color: #ff1493;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .message {
+            font-size: 1.5rem;
+            color: #333;
+            line-height: 1.6;
+            margin: 2rem 0;
+        }
+
+        .buttons {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .yes-btn {
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            background: #ff1493;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 1;
+        }
+
+        .no-btn {
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            background: #ffcccc;
+            color: #ff4444;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: absolute;
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.1);
+            background: #ff0066;
+            box-shadow: 0 0 30px rgba(255, 20, 147, 0.5);
+        }
+
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: float 5s infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .hidden-message {
+            display: none;
+            margin-top: 2rem;
+            color: #ff1493;
+            font-size: 2rem;
+            animation: dance 1s infinite;
+        }
+
+        @keyframes dance {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .escape-message {
+            display: none;
+            color: #ff4444;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(10px); }
+            50% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+            100% { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💖 Ginni, Be Mine Forever? 💖</h1>
+        
+        <div class="message">
+            <p>Ginni, you're the missing piece to my puzzle 🧩</p>
+            <p>Your love makes my world complete 🌍💫</p>
+            <p>Let's create our forever story together 📖</p>
+            <p>I promise to cherish you every single day 🌸</p>
+            <p>Will you make me the luckiest person alive?</p>
+        </div>
+
+        <div class="buttons">
+            <button class="yes-btn" onclick="showAnswer()">YES! 💍</button>
+            <button class="no-btn" id="noBtn" 
+                    onmouseover="escapeButton()"
+                    onclick="showWarning()">No ❌</button>
+        </div>
+
+        <div id="hiddenMessage" class="hidden-message">
+            🎉 YAY! Forever starts now! 🥂❤️
+        </div>
+
+        <div id="escapeMessage" class="escape-message">
+            😜 The universe says you can't say no! 🌌
+        </div>
+    </div>
+
+    <script>
+        let escapeSpeed = 50;
+        let attempts = 0;
+        const messages = [
+            "Nice try Ginni! 😉",
+            "Destiny says YES! 💫",
+            "Not an option! 😘",
+            "The stars say YES! 🌟",
+            "I'll keep asking! 💌"
+        ];
+
+        function escapeButton() {
+            const noBtn = document.getElementById('noBtn');
+            const container = document.querySelector('.container');
+            const escapeMessage = document.getElementById('escapeMessage');
+            
+            // Random movement
+            const x = (Math.random() - 0.5) * escapeSpeed;
+            const y = (Math.random() - 0.5) * escapeSpeed;
+            
+            noBtn.style.transform = `translate(${x}px, ${y}px)`;
+            noBtn.style.animation = 'shake 0.5s';
+            escapeSpeed *= 1.2;
+            attempts++;
+
+            // Show escape message
+            escapeMessage.style.display = 'block';
+            escapeMessage.textContent = messages[attempts % messages.length];
+            
+            // Reset animation
+            setTimeout(() => {
+                noBtn.style.animation = '';
+            }, 500);
+
+            // Create floating heart
+            createHeart(noBtn.getBoundingClientRect());
+        }
+
+        function showAnswer() {
+            document.getElementById('hiddenMessage').style.display = 'block';
+            document.getElementById('noBtn').style.display = 'none';
+        }
+
+        function showWarning() {
+            alert("Oops! The universe says this isn't an option! 🌌💖");
+        }
+
+        function createHeart(pos) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.left = pos.left + 'px';
+            heart.style.top = pos.top + 'px';
+            heart.innerHTML = '💖';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
